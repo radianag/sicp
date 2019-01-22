@@ -1,0 +1,65 @@
+(defun square (x) (* x x))
+(defun average (x y) 
+  (/ (+ x y) 2))
+(defun improve (guess x)
+  (average guess (/ x guess)))
+(defun good-enough? (guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(defun sqrt-iter (guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x) x)))
+
+;test sqrt-iter 
+(sqrt-iter 1.1 9)
+
+;change to Exercise 1.6
+
+(defun new-if (predicate then-clause else-clause)
+  (cond (predicate then-clause)
+        (else-clause)))
+
+(new-if (= 2 3) 0 4) 
+
+(defun sqrt-iter-new (guess x)
+  (new-if (good-enough? guess x)
+          guess
+          (sqrt-iter-new (improve guess x) x)))
+
+(sqrt-iter-new 4 9)
+;max-lisp-eval-depth
+
+; Exercise 1.7
+;small number
+(sqrt-iter 2 0.00004)
+(sqrt-iter 3 0.00004)
+; two different answers
+
+;large number
+(setq max-lisp-eval-depth 10000000)
+(setq max-specpdl-size 1000000)
+(sqrt-iter 1.232 274217700967)
+(sqrt-iter 3.4 274217700967)
+;cant do it
+
+
+; Exercise 1.8
+(defun cube (x) (* x x x))
+(defun cube-average (x y z) 
+  (/ (+ x y z) 3))
+(defun improve-cube (guess x)
+  (cube-average guess guess (/ x (square guess))))
+  
+(defun good-enough-cube? (guess x)
+  (< (abs (- (cube guess) x)) 0.001))
+
+(defun cube-iter (guess x)
+  (if (good-enough-cube? guess x)
+      guess
+      (cube-iter (improve-cube guess x) x)))
+
+(cube-iter 5.2 64)
+
+
+
