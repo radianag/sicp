@@ -1,17 +1,21 @@
-#lang racket
+#lang scheme
 
-(define a '(1 3 '(5 7) 9))
-(define b '('(7)))
-(define c '(1 '(2 '(3 '(4 '(5 '(6 7)))))))
+(define a (list 1 3 (list 5 7) 9))
+(define b (list(list 7)))
+(define c (list 1 (list 2 (list 3 (list 4 (list 5 (list 6 7)))))))
+
+(define (check-equal? num x)
+  (if (= num x) true false))
 
 a
+(check-equal? (car (cdr (car (cdr (cdr a))))) 7)
 b
+(check-equal? (car (car b)) 7)
 c
+(check-equal? (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr c)))))))))))) 7)
 
-(define (count-leaves x)
-  (cond ((null? x) 0)
-        ((not (pair? x)) (if (= 7 x) x 1))
-        (else (+ (count-leaves (car x))
-                 (count-leaves (cdr x))))))
-
-(count-leaves c)
+(newline)
+(define x (car (cdr (cdr a))))
+x
+(pair? x)
+(null? x)

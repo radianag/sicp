@@ -1,4 +1,4 @@
-#lang racket
+#lang scheme
 (define nil '())
 
 (define (list-ref items n)
@@ -25,26 +25,23 @@
       (length-iter items 0)))
 
 (define (deep-reverse items)
-  deep-reverse-append items (list ) (- (length items) 1))
+  (deep-reverse-append items (list ) (- (length items) 1)))
 
 (define (deep-reverse-append items result n)
-  (if (< n 0) result
+  (if (< n 0)
+      result
       (if (> (length (list-ref items n)) 0)
-          (if (null? result)
-              (deep-reverse-append items (list (deep-reverse (list-ref items n))) (- n 1))
-              (deep-reverse-append items (list (result deep-reverse (list-ref items n))) (- n 1)))
-          (deep-reverse-append items (append result (list (list-ref items n))) (- n 1)))
+      (deep-reverse-append items (append result (list (deep-reverse (list-ref items n)))) (- n 1))    
+      (deep-reverse-append items (append result (list (list-ref items n))) (- n 1))
+      )
   )
 )
 
 (define x 
   (list (list 1 2) (list 3 4) 2))
 
-(define y
-  (list 1 2))
-
-(deep-reverse y)
-
+x
+(deep-reverse x)
 
 
 
