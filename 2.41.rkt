@@ -21,15 +21,7 @@
              high))))
 
 ; making unique pairs
-(define (unique-pairs n)
-  (accumulate 
- append
- nil
- (map (lambda (i)
-        (map (lambda (j) 
-               (list i j))
-             (enumerate-interval 1 (- i 1))))
-      (enumerate-interval 1 n))))
+
 
 ;(unique-pairs 7)
 
@@ -52,10 +44,17 @@
 (define (divides? a b)
   (= (remainder b a) 0))
 
+(define (enumerate-tree tree)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (list tree))
+        (else (append 
+               (enumerate-tree (car tree))
+               (enumerate-tree (cdr tree))))))
 
 ;simplifying prime-sum-pairs
 (define (prime-sum? pair)
   (prime? (+ (car pair) (cadr pair))))
+
 (define (make-pair-sum pair)
   (list (car pair) 
         (cadr pair) 
@@ -67,7 +66,35 @@
         prime-sum?
         (unique-pairs n))))
 
-(prime-sum-pairs 7)
+(define (unique-pairs n)
+  (accumulate 
+ append
+ nil
+ (map (lambda (i)
+        (map (lambda (j) 
+               (list i j))
+             (enumerate-interval 1 (- i 1))))
+      (enumerate-interval 1 n))))
+
+;(unique-pairs 5)
+
+(define (unique-triplets-for-n n)
+  (map (lambda (i) (append (list n) i)) (unique-pairs (- n 1))))
+
+(define (unique-triplets n)
+  (flatmap unique-triplets-for-n (enumerate-interval 1 n)))
+(define x (unique-triplets 5))
+
+(define (make-triple-sum triple)
+  (list (car triple) 
+        (cadr triple)
+        (caddr triple)
+        (+ (car triple) (cadr triple) (caddr triple))))
+
+(define (make-triple-sum-n n)
+  (map make-triple-sum (unique-triplets n)))
+
+(make-triple-sum-n 5)
 
 
 
