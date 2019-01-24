@@ -10,3 +10,27 @@
                             new-origin)
                   (sub-vect (m corner2)
                             new-origin)))))))
+
+
+;flip-horiz
+(define (flip-horiz painter)
+  (transform-painter 
+   painter
+   (make-vect 1.0 0.0)   ; new origin
+   (make-vect 0.0 0.0)   ; new end of edge1
+   (make-vect 1.0 1.0))) ; new end of edge2
+
+;rotate 180
+(define (rotate180 painter)
+  (transform-painter painter
+                     (make-vect 1.0 1.0)
+                     (make-vect 0.0 1.0)
+                     (make-vect 1.0 0.0)))
+
+;rotate 270
+(define (rotate270 painter)
+  (transform-painter painter
+                     (make-vect 0.0 1.0)
+                     (make-vect 0.0 0.0)
+                     (make-vect 1.0 1.0)))
+
