@@ -1,0 +1,16 @@
+#lang racket
+
+(define (tan-cf n d k f)
+  (newline)
+  (display (f d))
+  (if (< k 2)
+      (/ n (f d))
+      (/ n (+ (f d) (cont-frac n (+ 1 d) (- k 1) f)))))
+
+(define (d-func x)
+  (cond ((= x 1) 1)
+        ((= 1 (remainder (- x 1) 3)) (* (/ (+ x 1) 3) 2))
+        (else 1))
+)
+
+(cont-frac 1 1 100 d-func)
