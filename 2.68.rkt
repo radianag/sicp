@@ -77,7 +77,7 @@
                     (cadr pair))  ; frequency
          (make-leaf-set (cdr pairs))))))
 
-;2.67 sample
+
 (define sample-tree
   (make-code-tree 
    (make-leaf 'A 4)
@@ -86,12 +86,45 @@
     (make-code-tree 
      (make-leaf 'D 1)
      (make-leaf 'C 1)))))
-(display "sample-tree")
+
+(display "sample-tree :")
 sample-tree
 
- 
+
+(define key (lambda (x) (caddr x)))
+
+(define (encode-symbols letter tree result)
+  ;(newline)
+  ;(display letter)
+  ;(display result)
+  (cond ((leaf? tree) result)
+        ((equal? (car (key tree)) letter)
+         (encode-symbols letter (left-branch tree) (append result (list '0))))
+        (else (encode-symbols letter (right-branch tree) (append result (list '1))))))
+  
+(define (encodes message tree)
+  (if (null? message)
+      '()
+      (append 
+       (encode-symbols (car message) 
+                      tree
+                      (list ))
+       (encodes (cdr message) tree))))
+
 (define sample-message 
   '(0 1 1 0 0 1 0 1 0 1 1 1 0))
 
-(decode sample-message sample-tree)
+(define sample-decoded-message (decode sample-message sample-tree))
+(newline)
+(display "sample-decoded-message: ")
+sample-decoded-message
+
+(define sample-encoded-message (encodes sample-decoded-message sample-tree))
+(newline)
+(display "sample-encoded-message: ")
+sample-encoded-message
+
+
+
+
 
