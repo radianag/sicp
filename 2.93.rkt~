@@ -1,0 +1,10 @@
+#lang racket
+ (define (make-poly variable term-list)
+    (cons variable term-list))
+  (define (variable p) (car p))
+  (define (term-list p) (cdr p))
+  (define (same-variable? v1 v2)
+    (define (variable? x) (symbol? x))
+    (and (variable? v1)
+        (variable? v2)
+        (eq? v1 v2)))
